@@ -19,7 +19,7 @@ public class UserModel {
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
-    @Column(name = "usuario")
+    @Column(unique = true, name = "usuario")
     private String username;
     private String name;
     private String password;
