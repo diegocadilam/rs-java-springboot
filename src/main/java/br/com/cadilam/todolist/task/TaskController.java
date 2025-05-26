@@ -24,6 +24,7 @@ public class TaskController {
             return ResponseEntity.status(400).body("Task already.");
         }
 
+        System.out.println("Passou pela Controller");
         var taskCreated = this.taskRepository.save(taskModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(taskCreated);
