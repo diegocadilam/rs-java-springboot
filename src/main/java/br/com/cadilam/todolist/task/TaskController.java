@@ -1,5 +1,8 @@
 package br.com.cadilam.todolist.task;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +29,24 @@ public class TaskController {
             return ResponseEntity.status(400).body("Task already.");
         }
 
-        System.out.println(request.getAttribute("idUser"));
-
         // taskModel.setId(null);
 
         System.out.println("Passou pela Controller");
+
+        var currentDate = LocalDateTime.now();
+
+        if(currentDate.isAfter(taskModel.getStartDate()) || currentDate.isAfter(taskModel.getEndtDate())){
+            ResponseEntity.status(400, "A data de inicio / datade término dever ser maior do que a data atual.")
+        }
+
+        if(currentDate.isAfter(taskModel.getStartDate()) || currentDate.isAfter(taskModel.getEndtDate())){
+            ResponseEntity.status(400).body("A data de inicio / datade término dever ser maior do que a data atual.")
+        }
+
+        if(taskModel.getStartDate().isAfter(taskModel.getEndtDate()){
+            ResponseEntity.status(400).body("A data de inicio deve ser menor do que a data de termino.")
+        }
+
         var taskCreated = this.taskRepository.save(taskModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(taskCreated);
