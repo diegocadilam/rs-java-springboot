@@ -56,7 +56,7 @@ public class TaskController {
 
         var taskCreated = this.taskRepository.save(taskModel);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskCreated);
+        return ResponseEntity.status(HttpStatus.OK).body(taskCreated);
     }
 
     @GetMapping("/")
