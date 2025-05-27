@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -16,13 +18,17 @@ public class TaskController {
     private ITaskRepository taskRepository;
 
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody TaskModel taskModel) {
+    public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
 
         var task = taskRepository.findByTitle(taskModel.getTitle());
 
         if (task != null) {
             return ResponseEntity.status(400).body("Task already.");
         }
+
+        System.out.println(request.getAttribute("idUser"));
+
+        // taskModel.setId(null);
 
         System.out.println("Passou pela Controller");
         var taskCreated = this.taskRepository.save(taskModel);
